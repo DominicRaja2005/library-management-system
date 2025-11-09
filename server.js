@@ -4,8 +4,8 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 
-// ✅ Load environment variables (explicit path for Render/local)
-dotenv.config({ path: "./backend/.env" });
+// ✅ Load environment variables (works locally & on Render)
+dotenv.config({ path: "./.env" });
 
 // ✅ Log to confirm
 console.log("📄 Loaded MONGO_URI:", process.env.MONGO_URI);
@@ -27,7 +27,11 @@ const app = express();
 // ✅ Middleware
 app.use(
   cors({
-    origin: "http://localhost:5173", // React frontend URL
+    origin: [
+      "http://localhost:3000",     // Local React (CRA)
+      "http://localhost:5173",     // Local Vite (if you use it)
+      "https://library-management-system-2-eje9.onrender.com" // Render frontend URL
+    ],
     credentials: true,
   })
 );
